@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - package
+  pull_request:
+    branches:
+      - main
 
 jobs:
   publish:
