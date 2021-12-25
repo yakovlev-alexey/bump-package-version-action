@@ -4,7 +4,7 @@ import { exec } from "../utils/exec";
 const makeCommit = async (version: string) => {
     const commitMessage = COMMIT_MESSAGE.replace(/{{version}}/g, version);
 
-    await exec(`git commit -a -m ${commitMessage}`);
+    await exec(`git commit -a -m "${commitMessage}"`);
 };
 
 export { makeCommit };

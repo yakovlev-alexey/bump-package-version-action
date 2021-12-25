@@ -75,6 +75,7 @@ const $d56d63f6fcd207e2$export$9a4ff46b96c101f8 = (messages, words)=>{
 
 const $0bd15d6309841405$export$d6875ac9e42c5d13 = (commits)=>{
     const messages = $eeb57b34270821dd$export$7614f1c7608a9f16(commits);
+    console.log($e1181c88df78847e$export$9c22c0b0c1bcc7b5);
     switch(true){
         case $d56d63f6fcd207e2$export$9a4ff46b96c101f8(messages, $e1181c88df78847e$export$9c22c0b0c1bcc7b5):
             return "major";
@@ -126,7 +127,7 @@ const $f889754ddad8110b$export$52f84dc7de3cd4b8 = async (version)=>{
 
 const $d688e08773f8faf9$export$3c0b7c85670b6d1a = async (version)=>{
     const commitMessage = $e1181c88df78847e$export$eceeda9df681e8de.replace(/{{version}}/g, version);
-    await $df40e2c226cd3ec7$export$78e3044358792147(`git commit -a -m ${commitMessage}`);
+    await $df40e2c226cd3ec7$export$78e3044358792147(`git commit -a -m "${commitMessage}"`);
 };
 
 

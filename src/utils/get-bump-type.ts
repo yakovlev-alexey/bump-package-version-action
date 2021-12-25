@@ -7,6 +7,7 @@ import type { BumpType, Commit } from "../types";
 const getBumpType = (commits: Commit[]): BumpType | null => {
     const messages = extractMessages(commits);
 
+    console.log(MAJOR_WORDING);
     switch (true) {
         case haveWords(messages, MAJOR_WORDING):
             return "major";
