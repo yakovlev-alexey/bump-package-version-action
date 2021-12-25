@@ -9,7 +9,7 @@ const exec = (command: string) => {
                 resolve(stdout);
             }
 
-            reject(`${stderr}\n${command} exited with code ${err.code}`);
+            reject(`${stderr}\n${command} exited with error ${err}`);
         });
     });
 };

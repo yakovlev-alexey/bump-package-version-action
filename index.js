@@ -104,7 +104,7 @@ const $df40e2c226cd3ec7$export$78e3044358792147 = (command)=>{
             cwd: $e1181c88df78847e$export$da7dc787b5bb24a3
         }, (err, stdout, stderr)=>{
             if (!err) resolve(stdout);
-            reject(`${stderr}\n${command} exited with code ${err.code}`);
+            reject(`${stderr}\n${command} exited with error ${err}`);
         });
     });
 };
