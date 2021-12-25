@@ -17,12 +17,12 @@ const $e1181c88df78847e$export$8237651927eeefcf = Boolean($58f2a8ee7a8e01f9$expo
 const $e1181c88df78847e$export$b2c618602f6acb32 = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
 const $e1181c88df78847e$export$ff09b90989b21a8 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GUTHUB_USER", "Automated Version Bump");
 const $e1181c88df78847e$export$61171c632678b12e = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GUTHUB_EMAIL", "bump-package-version-action@users.noreply.github.com");
-const $e1181c88df78847e$export$a04746c34337686a = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_TAG_PREFIX", "");
-const $e1181c88df78847e$export$eceeda9df681e8de = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_COMMIT_MESSAGE", "ci: version bump to {{version}}");
+const $e1181c88df78847e$export$a04746c34337686a = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_TAG-PREFIX", "");
+const $e1181c88df78847e$export$eceeda9df681e8de = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_COMMIT-MESSAGE", "ci: version bump to {{version}}");
 const $e1181c88df78847e$export$4fa4a22200055c8a = new RegExp($e1181c88df78847e$export$eceeda9df681e8de.replace(/{{version}}/g, `${$e1181c88df78847e$export$a04746c34337686a}\\d+\\.\\d+\\.\\d+`), "ig");
-const $e1181c88df78847e$export$9c22c0b0c1bcc7b5 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_MAJOR_WORDING", "BREAKING CHANGES").split(",");
-const $e1181c88df78847e$export$945cdec32488ff3d = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_MINOR_WORDING", "feat").split(",");
-const $e1181c88df78847e$export$7c6e2bf360dbbe96 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_PATCH_WORDING", "fix").split(",");
+const $e1181c88df78847e$export$9c22c0b0c1bcc7b5 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_MAJOR-WORDING", "BREAKING CHANGES").split(",");
+const $e1181c88df78847e$export$945cdec32488ff3d = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_MINOR-WORDING", "feat").split(",");
+const $e1181c88df78847e$export$7c6e2bf360dbbe96 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_PATCH-WORDING", "fix").split(",");
 
 
 const $eeb57b34270821dd$export$7614f1c7608a9f16 = (commits)=>{
@@ -33,6 +33,7 @@ const $eeb57b34270821dd$export$7614f1c7608a9f16 = (commits)=>{
 
 const $e3f708878f039a98$export$ad60db2a67d9e517 = async (commits)=>{
     const messages = $eeb57b34270821dd$export$7614f1c7608a9f16(commits);
+    console.log($e1181c88df78847e$export$4fa4a22200055c8a, messages);
     return messages.some((message)=>$e1181c88df78847e$export$4fa4a22200055c8a.test(message)
     );
 };
@@ -75,7 +76,6 @@ const $d56d63f6fcd207e2$export$9a4ff46b96c101f8 = (messages, words)=>{
 
 const $0bd15d6309841405$export$d6875ac9e42c5d13 = (commits)=>{
     const messages = $eeb57b34270821dd$export$7614f1c7608a9f16(commits);
-    console.log($e1181c88df78847e$export$9c22c0b0c1bcc7b5);
     switch(true){
         case $d56d63f6fcd207e2$export$9a4ff46b96c101f8(messages, $e1181c88df78847e$export$9c22c0b0c1bcc7b5):
             return "major";
@@ -151,6 +151,7 @@ const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
         console.log("No commits found: aborting bump");
         return;
     }
+    console.log(await $e3f708878f039a98$export$ad60db2a67d9e517(commits));
     if (await $e3f708878f039a98$export$ad60db2a67d9e517(commits)) {
         console.log("Previous bump found: aborting bump");
         return;

@@ -12,9 +12,9 @@ const EMAIL = env(
 
 export { EVENT_PATH, WORKSPACE, IS_PULL_REQUEST, REMOTE_REPO, USER, EMAIL };
 
-const TAG_PREFIX = env("INPUT_TAG_PREFIX", "");
+const TAG_PREFIX = env("INPUT_TAG-PREFIX", "");
 const COMMIT_MESSAGE = env(
-    "INPUT_COMMIT_MESSAGE",
+    "INPUT_COMMIT-MESSAGE",
     "ci: version bump to {{version}}",
 );
 const COMMIT_MESSAGE_REGEX = new RegExp(
@@ -24,8 +24,8 @@ const COMMIT_MESSAGE_REGEX = new RegExp(
 
 export { TAG_PREFIX, COMMIT_MESSAGE, COMMIT_MESSAGE_REGEX };
 
-const MAJOR_WORDING = env("INPUT_MAJOR_WORDING", "BREAKING CHANGES").split(",");
-const MINOR_WORDING = env("INPUT_MINOR_WORDING", "feat").split(",");
-const PATCH_WORDING = env("INPUT_PATCH_WORDING", "fix").split(",");
+const MAJOR_WORDING = env("INPUT_MAJOR-WORDING", "BREAKING CHANGES").split(",");
+const MINOR_WORDING = env("INPUT_MINOR-WORDING", "feat").split(",");
+const PATCH_WORDING = env("INPUT_PATCH-WORDING", "fix").split(",");
 
 export { MAJOR_WORDING, MINOR_WORDING, PATCH_WORDING };

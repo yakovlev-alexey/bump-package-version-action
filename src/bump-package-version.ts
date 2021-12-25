@@ -16,6 +16,8 @@ export const bumpPackageVersion = async () => {
         console.log("No commits found: aborting bump");
         return;
     }
+
+    console.log(await haveVersionBump(commits));
     if (await haveVersionBump(commits)) {
         console.log("Previous bump found: aborting bump");
         return;
