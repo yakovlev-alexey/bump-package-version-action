@@ -4,9 +4,9 @@ import { IS_PULL_REQUEST } from "../constants";
 
 import type { Commit } from "../types";
 
-const calculateVersion = (current: string, commits: Commit[]) => {
+const calculateVersion = async (current: string, commits: Commit[]) => {
     if (IS_PULL_REQUEST) {
-        return getRcVersion(current, commits);
+        return await getRcVersion(current, commits);
     } else {
         return getBumpType(commits);
     }

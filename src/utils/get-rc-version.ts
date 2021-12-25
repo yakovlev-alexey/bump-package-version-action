@@ -1,8 +1,7 @@
-import type { Commit } from "../types";
+import { exec } from "./exec";
 
-const getRcVersion = (version: string, commits: Commit[]) => {
-    console.log("rc version", version, commits);
-    const latestHash = commits[commits.length - 1].id;
+const getRcVersion = async (version: string) => {
+    const latestHash = await exec("git rev-parse --short HEAD");
 
     return version.replace(/-rc-.*/, "") + `-rc-${latestHash}`;
 };

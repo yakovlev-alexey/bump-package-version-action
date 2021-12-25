@@ -8,11 +8,12 @@ import { bumpVersion } from "./steps/bump-version";
 import { makeCommit } from "./steps/make-commit";
 import { makePush } from "./steps/make-push";
 import { makeTag } from "./steps/make-tag";
+import { IS_PULL_REQUEST } from "./constants";
 
 export const bumpPackageVersion = async () => {
     const commits = await getCommits();
 
-    if (commits.length === 0) {
+    if (!IS_PULL_REQUEST && commits.length === 0) {
         console.log("No commits found: aborting bump");
         return;
     }
@@ -28,7 +29,7 @@ export const bumpPackageVersion = async () => {
 
     const current = pkg.version.toString();
 
-    const calculatedVersion = calculateVersion(current, commits);
+    const calculatedVersion = await calculateVersion(current, commits);
 
     if (calculatedVersion === null) {
         console.log("No wording matched: aborting bump");

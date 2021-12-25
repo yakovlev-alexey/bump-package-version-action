@@ -10,7 +10,6 @@ const $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3 = (name, defaultValue)=>{
 };
 
 
-console.log(process.env);
 const $e1181c88df78847e$export$db8bb791c0a06140 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_EVENT_PATH");
 const $e1181c88df78847e$export$da7dc787b5bb24a3 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_WORKSPACE");
 const $e1181c88df78847e$export$8237651927eeefcf = Boolean($58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_HEAD_REF"));
@@ -58,9 +57,22 @@ const $614da927c656e026$export$c76cbc8af6040a47 = async ()=>{
 };
 
 
-const $6cf48e5bb052e71e$export$675fe7fcc48d1ee8 = (version, commits)=>{
-    console.log("rc version", version, commits);
-    const latestHash = commits[commits.length - 1].id;
+
+
+const $df40e2c226cd3ec7$export$78e3044358792147 = (command)=>{
+    return new Promise((resolve, reject)=>{
+        $7pP8V$child_process.exec(command, {
+            cwd: $e1181c88df78847e$export$da7dc787b5bb24a3
+        }, (err, stdout, stderr)=>{
+            if (!err) resolve(stdout);
+            reject(`${stderr}\n${command} exited with error ${err}`);
+        });
+    });
+};
+
+
+const $6cf48e5bb052e71e$export$675fe7fcc48d1ee8 = async (version)=>{
+    const latestHash = await $df40e2c226cd3ec7$export$78e3044358792147("git rev-parse --short HEAD");
     return version.replace(/-rc-.*/, "") + `-rc-${latestHash}`;
 };
 
@@ -90,25 +102,12 @@ const $0bd15d6309841405$export$d6875ac9e42c5d13 = (commits)=>{
 
 
 
-const $3e99bd3b79202329$export$c64ae365b10b6f6a = (current, commits)=>{
-    if ($e1181c88df78847e$export$8237651927eeefcf) return $6cf48e5bb052e71e$export$675fe7fcc48d1ee8(current, commits);
+const $3e99bd3b79202329$export$c64ae365b10b6f6a = async (current, commits)=>{
+    if ($e1181c88df78847e$export$8237651927eeefcf) return await $6cf48e5bb052e71e$export$675fe7fcc48d1ee8(current, commits);
     else return $0bd15d6309841405$export$d6875ac9e42c5d13(commits);
 };
 
 
-
-
-
-const $df40e2c226cd3ec7$export$78e3044358792147 = (command)=>{
-    return new Promise((resolve, reject)=>{
-        $7pP8V$child_process.exec(command, {
-            cwd: $e1181c88df78847e$export$da7dc787b5bb24a3
-        }, (err, stdout, stderr)=>{
-            if (!err) resolve(stdout);
-            reject(`${stderr}\n${command} exited with error ${err}`);
-        });
-    });
-};
 
 
 const $dd39407a6c55c725$export$f3912e27b190ed8d = async ()=>{
@@ -145,9 +144,10 @@ const $3d4be95bac04087b$export$683f9f4843c07b19 = async (version)=>{
 };
 
 
+
 const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
     const commits = await $614da927c656e026$export$c76cbc8af6040a47();
-    if (commits.length === 0) {
+    if (!$e1181c88df78847e$export$8237651927eeefcf && commits.length === 0) {
         console.log("No commits found: aborting bump");
         return;
     }
@@ -158,7 +158,7 @@ const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
     await $dd39407a6c55c725$export$f3912e27b190ed8d();
     const pkg = await $d00624c5e0395f8d$export$58452b1f896d18ce();
     const current = pkg.version.toString();
-    const calculatedVersion = $3e99bd3b79202329$export$c64ae365b10b6f6a(current, commits);
+    const calculatedVersion = await $3e99bd3b79202329$export$c64ae365b10b6f6a(current, commits);
     if (calculatedVersion === null) {
         console.log("No wording matched: aborting bump");
         return;
