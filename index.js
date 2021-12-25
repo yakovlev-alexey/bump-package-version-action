@@ -145,6 +145,20 @@ const $3d4be95bac04087b$export$683f9f4843c07b19 = async (version)=>{
 
 
 
+
+const $51a6b55ebdaad9e7$export$66495e3f9280fd95 = ()=>{
+    if ($e1181c88df78847e$export$8237651927eeefcf) return process.env.GITHUB_HEAD_REF;
+    return /refs\/[a-zA-Z]+\/(.*)/.exec(process.env.GITHUB_REF)[1];
+};
+
+
+
+const $65ddd2448ff13334$export$ccc883122007ba34 = async ()=>{
+    const branch = $51a6b55ebdaad9e7$export$66495e3f9280fd95();
+    await $df40e2c226cd3ec7$export$78e3044358792147(`git checkout ${branch}`);
+};
+
+
 const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
     const commits = await $614da927c656e026$export$c76cbc8af6040a47();
     if (!$e1181c88df78847e$export$8237651927eeefcf && commits.length === 0) {
@@ -163,6 +177,7 @@ const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
         console.log("No wording matched: aborting bump");
         return;
     }
+    await $65ddd2448ff13334$export$ccc883122007ba34();
     const version = await $f889754ddad8110b$export$52f84dc7de3cd4b8(calculatedVersion);
     await $d688e08773f8faf9$export$3c0b7c85670b6d1a(version);
     await $3d4be95bac04087b$export$683f9f4843c07b19(version);

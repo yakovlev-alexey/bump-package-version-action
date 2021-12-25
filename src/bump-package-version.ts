@@ -9,6 +9,7 @@ import { makeCommit } from "./steps/make-commit";
 import { makePush } from "./steps/make-push";
 import { makeTag } from "./steps/make-tag";
 import { IS_PULL_REQUEST } from "./constants";
+import { makeCheckout } from "./steps/make-checkout";
 
 export const bumpPackageVersion = async () => {
     const commits = await getCommits();
@@ -35,6 +36,8 @@ export const bumpPackageVersion = async () => {
         console.log("No wording matched: aborting bump");
         return;
     }
+
+    await makeCheckout();
 
     const version = await bumpVersion(calculatedVersion);
 
