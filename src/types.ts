@@ -5,7 +5,7 @@ type Package = {
 type Commit = {
     message: string;
     body: string;
-    hash: string;
+    id: string;
 };
 
 type BumpType = "major" | "minor" | "patch";

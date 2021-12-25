@@ -14,13 +14,13 @@ const fsExists = async (filePath: string): Promise<boolean> =>
 const getPackageJson = async (): Promise<Package> => {
     const pathToPackage = path.join(WORKSPACE, "package.json");
 
-    if (!fsExists(pathToPackage)) {
+    if (!(await fsExists(pathToPackage))) {
         throw new Error(
             "package.json could not be found in your project's root",
         );
     }
 
-    return import(pathToPackage);
+    return require(pathToPackage);
 };
 
 export { getPackageJson };

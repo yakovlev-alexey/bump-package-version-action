@@ -1,5 +1,3 @@
-import pc from "picocolors";
-
 import { haveVersionBump } from "./utils/have-version-bump";
 import { getPackageJson } from "./utils/get-package-json";
 import { getCommits } from "./utils/get-commits";
@@ -18,8 +16,7 @@ export const bumpPackageVersion = async () => {
         console.log("No commits found: aborting bump");
         return;
     }
-
-    if (haveVersionBump(commits)) {
+    if (await haveVersionBump(commits)) {
         console.log("Previous bump found: aborting bump");
         return;
     }
@@ -43,11 +40,5 @@ export const bumpPackageVersion = async () => {
     await makeTag(version);
     await makePush();
 
-    console.log(
-        pc.green(
-            `Successfully bumped version from ${pc.bold(current)} to ${pc.bold(
-                version,
-            )}`,
-        ),
-    );
+    console.log(`Successfully bumped version from ${current} to ${version}`);
 };

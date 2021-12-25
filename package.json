@@ -6,7 +6,7 @@
     "author": "Alexey Yakovlev <alexeyyakovlev0359@gmail.com>",
     "license": "MIT",
     "engines": {
-        "node": ">=14"
+        "node": ">=12"
     },
     "scripts": {
         "build": "parcel build --no-source-maps",
@@ -17,8 +17,7 @@
     },
     "dependencies": {
         "@actions/core": "^1.6.0",
-        "@actions/github": "^5.0.0",
-        "picocolors": "^1.0.0"
+        "@actions/github": "^5.0.0"
     },
     "devDependencies": {
         "@typescript-eslint/eslint-plugin": "^5.8.0",
