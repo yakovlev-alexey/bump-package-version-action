@@ -6,7 +6,7 @@ on:
       - package
   pull_request:
     branches:
-      - main
+      - package
 
 jobs:
   publish:
