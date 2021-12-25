@@ -6,11 +6,11 @@ function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
 }
 const $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3 = (name, defaultValue)=>{
-    var _name;
-    return (_name = process.env[name]) !== null && _name !== void 0 ? _name : defaultValue;
+    return process.env[name] || defaultValue;
 };
 
 
+console.log(process.env);
 const $e1181c88df78847e$export$db8bb791c0a06140 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_EVENT_PATH");
 const $e1181c88df78847e$export$da7dc787b5bb24a3 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_WORKSPACE");
 const $e1181c88df78847e$export$8237651927eeefcf = Boolean($58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_HEAD_REF"));
@@ -33,7 +33,6 @@ const $eeb57b34270821dd$export$7614f1c7608a9f16 = (commits)=>{
 
 const $e3f708878f039a98$export$ad60db2a67d9e517 = async (commits)=>{
     const messages = $eeb57b34270821dd$export$7614f1c7608a9f16(commits);
-    console.log($e1181c88df78847e$export$4fa4a22200055c8a, messages);
     return messages.some((message)=>$e1181c88df78847e$export$4fa4a22200055c8a.test(message)
     );
 };
@@ -55,11 +54,12 @@ const $d00624c5e0395f8d$export$58452b1f896d18ce = async ()=>{
 
 
 const $614da927c656e026$export$c76cbc8af6040a47 = async ()=>{
-    return $e1181c88df78847e$export$db8bb791c0a06140 ? (await require($e1181c88df78847e$export$db8bb791c0a06140)).commits : [];
+    return $e1181c88df78847e$export$db8bb791c0a06140 && (await require($e1181c88df78847e$export$db8bb791c0a06140)).commits || [];
 };
 
 
 const $6cf48e5bb052e71e$export$675fe7fcc48d1ee8 = (version, commits)=>{
+    console.log("rc version", version, commits);
     const latestHash = commits[commits.length - 1].id;
     return version.replace(/-rc-.*/, "") + `-rc-${latestHash}`;
 };
@@ -151,7 +151,6 @@ const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
         console.log("No commits found: aborting bump");
         return;
     }
-    console.log(await $e3f708878f039a98$export$ad60db2a67d9e517(commits));
     if (await $e3f708878f039a98$export$ad60db2a67d9e517(commits)) {
         console.log("Previous bump found: aborting bump");
         return;

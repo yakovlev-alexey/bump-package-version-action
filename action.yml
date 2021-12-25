@@ -18,5 +18,4 @@ inputs:
     required: false
   commit-message:
     description: "Set a custom commit message for version bump commit"
-    default: ""
     required: false

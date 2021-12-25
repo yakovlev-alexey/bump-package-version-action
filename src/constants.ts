@@ -1,5 +1,7 @@
 import { env } from "./utils/env";
 
+console.log(process.env);
+
 const EVENT_PATH = env("GITHUB_EVENT_PATH");
 const WORKSPACE = env("GITHUB_WORKSPACE");
 const IS_PULL_REQUEST = Boolean(env("GITHUB_HEAD_REF"));
