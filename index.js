@@ -111,8 +111,8 @@ const $df40e2c226cd3ec7$export$78e3044358792147 = (command)=>{
 
 
 const $dd39407a6c55c725$export$f3912e27b190ed8d = async ()=>{
-    await $df40e2c226cd3ec7$export$78e3044358792147(`git config user.name ${$e1181c88df78847e$export$ff09b90989b21a8}`);
-    await $df40e2c226cd3ec7$export$78e3044358792147(`git config user.email ${$e1181c88df78847e$export$61171c632678b12e}`);
+    await $df40e2c226cd3ec7$export$78e3044358792147(`git config user.name "${$e1181c88df78847e$export$ff09b90989b21a8}"`);
+    await $df40e2c226cd3ec7$export$78e3044358792147(`git config user.email "${$e1181c88df78847e$export$61171c632678b12e}"`);
 };
 
 
