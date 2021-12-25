@@ -17,6 +17,6 @@ jobs:
           fetch-depth: 0
 
       - name: "Bump version"
-        uses: "yakovlev-alexey/bump-package-version-action@main"
+        uses: "yakovlev-alexey/bump-package-version-action@feat-skip-fork"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
