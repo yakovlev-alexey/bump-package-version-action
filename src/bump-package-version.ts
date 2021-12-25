@@ -29,12 +29,12 @@ export const bumpPackageVersion = async () => {
 
     const calculatedVersion = calculateVersion(current, commits);
 
-    const version = await bumpVersion(calculatedVersion);
-
-    if (version === null) {
+    if (calculatedVersion === null) {
         console.log("No wording matched: aborting bump");
         return;
     }
+
+    const version = await bumpVersion(calculatedVersion);
 
     await makeCommit(version);
     await makeTag(version);

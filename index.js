@@ -158,11 +158,11 @@ const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
     const pkg = await $d00624c5e0395f8d$export$58452b1f896d18ce();
     const current = pkg.version.toString();
     const calculatedVersion = $3e99bd3b79202329$export$c64ae365b10b6f6a(current, commits);
-    const version = await $f889754ddad8110b$export$52f84dc7de3cd4b8(calculatedVersion);
-    if (version === null) {
+    if (calculatedVersion === null) {
         console.log("No wording matched: aborting bump");
         return;
     }
+    const version = await $f889754ddad8110b$export$52f84dc7de3cd4b8(calculatedVersion);
     await $d688e08773f8faf9$export$3c0b7c85670b6d1a(version);
     await $3d4be95bac04087b$export$683f9f4843c07b19(version);
     await $4551542afe13c472$export$3ffcc9a890cc5e87();
