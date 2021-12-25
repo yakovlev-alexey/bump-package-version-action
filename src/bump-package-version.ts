@@ -1,0 +1,53 @@
+import pc from "picocolors";
+
+import { haveVersionBump } from "./utils/have-version-bump";
+import { getPackageJson } from "./utils/get-package-json";
+import { getCommits } from "./utils/get-commits";
+
+import { calculateVersion } from "./steps/calculate-version";
+import { prepareGitActor } from "./steps/prepare-git-actor";
+import { bumpVersion } from "./steps/bump-version";
+import { makeCommit } from "./steps/make-commit";
+import { makePush } from "./steps/make-push";
+import { makeTag } from "./steps/make-tag";
+
+export const bumpPackageVersion = async () => {
+    const commits = await getCommits();
+
+    if (commits.length === 0) {
+        console.log("No commits found: aborting bump");
+        return;
+    }
+
+    if (haveVersionBump(commits)) {
+        console.log("Previous bump found: aborting bump");
+        return;
+    }
+
+    await prepareGitActor();
+
+    const pkg = await getPackageJson();
+
+    const current = pkg.version.toString();
+
+    const calculatedVersion = calculateVersion(current, commits);
+
+    const version = await bumpVersion(calculatedVersion);
+
+    if (version === null) {
+        console.log("No wording matched: aborting bump");
+        return;
+    }
+
+    await makeCommit(version);
+    await makeTag(version);
+    await makePush();
+
+    console.log(
+        pc.green(
+            `Successfully bumped version from ${pc.bold(current)} to ${pc.bold(
+                version,
+            )}`,
+        ),
+    );
+};
