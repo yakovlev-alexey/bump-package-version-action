@@ -2,9 +2,14 @@
     "name": "bump-package-version-action",
     "version": "1.0.0",
     "main": "index.js",
+    "source": "src/index.ts",
     "author": "Alexey Yakovlev <alexeyyakovlev0359@gmail.com>",
     "license": "MIT",
+    "engines": {
+        "node": ">=14"
+    },
     "scripts": {
+        "build": "parcel build --no-source-maps",
         "lint": "npm-run-all lint:*",
         "lint:scripts": "eslint './**/*.{js,ts}'",
         "format": "prettier --write './**/*.{js,ts}'",
