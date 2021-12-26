@@ -1,4 +1,4 @@
-import { getRcVersion } from "../utils/get-rc-version";
+import { getCanaryVersion } from "../utils/get-canary-version";
 import { exec } from "../utils/exec";
 
 import { IS_PULL_REQUEST } from "../constants/github";
@@ -14,9 +14,9 @@ const bumpVersion = async (type: BumpType) => {
         return version;
     }
 
-    const rcVersion = await getRcVersion(version);
+    const canaryVersion = await getCanaryVersion(version);
 
-    return await exec(`npm version --git-tag-version=false ${rcVersion}`);
+    return await exec(`npm version --git-tag-version=false ${canaryVersion}`);
 };
 
 export { bumpVersion };

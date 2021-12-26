@@ -147,9 +147,9 @@ const $65ddd2448ff13334$export$ccc883122007ba34 = async ()=>{
 
 
 
-const $6cf48e5bb052e71e$export$675fe7fcc48d1ee8 = async (version)=>{
+const $e6ab11aad6f9a168$export$f3f986eb423a3343 = async (version)=>{
     const latestHash = await $df40e2c226cd3ec7$export$78e3044358792147("git rev-parse --short HEAD");
-    return version.replace(/-rc-.*/, "") + `-rc-${latestHash}`;
+    return version.replace(/-canary-.*/, "") + `-canary-${latestHash}`;
 };
 
 
@@ -158,8 +158,8 @@ const $6cf48e5bb052e71e$export$675fe7fcc48d1ee8 = async (version)=>{
 const $f889754ddad8110b$export$52f84dc7de3cd4b8 = async (type)=>{
     const version = (await $df40e2c226cd3ec7$export$78e3044358792147(`npm version --git-tag-version=false ${type}`)).trim();
     if (!$25f6fd31a701b1af$export$8237651927eeefcf) return version;
-    const rcVersion = await $6cf48e5bb052e71e$export$675fe7fcc48d1ee8(version);
-    return await $df40e2c226cd3ec7$export$78e3044358792147(`npm version --git-tag-version=false ${rcVersion}`);
+    const canaryVersion = await $e6ab11aad6f9a168$export$f3f986eb423a3343(version);
+    return await $df40e2c226cd3ec7$export$78e3044358792147(`npm version --git-tag-version=false ${canaryVersion}`);
 };
 
 
