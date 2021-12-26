@@ -1,0 +1,28 @@
+name: "Main"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  node-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Lint
+        run: yarn lint
+
+      - name: "Bump version"
+        uses: "yakovlev-alexey/bump-package-version-action@main"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          minor-wording: "feat"
+          major-wording: "feat!,BREAKING CHANGES"
+          patch-wording: "fix"
