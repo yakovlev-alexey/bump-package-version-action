@@ -1,4 +1,4 @@
-import { REMOTE_REPO } from "../constants";
+import { REMOTE_REPO } from "../constants/github";
 import { exec } from "../utils/exec";
 
 const makePush = async () => {

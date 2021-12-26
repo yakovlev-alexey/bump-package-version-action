@@ -8,7 +8,7 @@ const WORKSPACE = env("GITHUB_WORKSPACE");
 export { EVENT_PATH, WORKSPACE };
 
 const IS_PULL_REQUEST = Boolean(env("GITHUB_HEAD_REF"));
-const PULL_REQUEST_NUMBER = (context as { number?: number }).number;
+const PULL_REQUEST_NUMBER = context.payload.pull_request?.number;
 
 export { IS_PULL_REQUEST, PULL_REQUEST_NUMBER };
 

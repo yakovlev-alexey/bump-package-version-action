@@ -1,5 +1,4 @@
-import core from "@actions/core";
-import { context } from "@actions/github";
+import { setOutput } from "@actions/core";
 
 import { haveVersionBump } from "./utils/have-version-bump";
 import { getPackageJson } from "./utils/get-package-json";
@@ -18,11 +17,13 @@ export const bumpPackageVersion = async () => {
 
     if (commits.length === 0) {
         console.log("No commits found: aborting bump");
+        setOutput("version", null);
         return;
     }
 
     if (await haveVersionBump(commits)) {
         console.log("Previous bump found: aborting bump");
+        setOutput("version", null);
         return;
     }
 
@@ -32,6 +33,7 @@ export const bumpPackageVersion = async () => {
 
     if (bumpType === null) {
         console.log("No wording matched: aborting bump");
+        setOutput("version", null);
         return;
     }
 
@@ -48,5 +50,5 @@ export const bumpPackageVersion = async () => {
 
     console.log(`Successfully bumped version from ${current} to ${version}`);
 
-    core.setOutput("version", version);
+    setOutput("version", version);
 };
