@@ -1,4 +1,4 @@
-import { COMMIT_MESSAGE_REGEX } from "../constants";
+import { COMMIT_MESSAGE_REGEX } from "../constants/input";
 import { extractMessages } from "./extract-messages";
 
 import type { Commit } from "../types";

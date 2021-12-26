@@ -1,4 +1,4 @@
-import { IS_PULL_REQUEST } from "../constants";
+import { IS_PULL_REQUEST } from "../constants/github";
 
 const getCurrentBranch = () => {
     if (IS_PULL_REQUEST) {

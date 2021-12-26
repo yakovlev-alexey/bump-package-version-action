@@ -1,4 +1,4 @@
-import { EMAIL, USER } from "../constants";
+import { EMAIL, USER } from "../constants/github";
 import { exec } from "../utils/exec";
 
 const prepareGitActor = async () => {

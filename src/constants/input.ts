@@ -1,25 +1,4 @@
-import { env } from "./utils/env";
-
-const EVENT_PATH = env("GITHUB_EVENT_PATH");
-const WORKSPACE = env("GITHUB_WORKSPACE");
-const IS_PULL_REQUEST = Boolean(env("GITHUB_HEAD_REF"));
-const REPO = env("GITHUB_REPOSITORY");
-const REMOTE_REPO = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${REPO}.git`;
-const USER = env("GUTHUB_USER", "Automated Version Bump");
-const EMAIL = env(
-    "GUTHUB_EMAIL",
-    "bump-package-version-action@users.noreply.github.com",
-);
-
-export {
-    EVENT_PATH,
-    WORKSPACE,
-    IS_PULL_REQUEST,
-    REPO,
-    REMOTE_REPO,
-    USER,
-    EMAIL,
-};
+import { env } from "../utils/env";
 
 const TAG_PREFIX = env("INPUT_TAG-PREFIX", "");
 const COMMIT_MESSAGE = env(

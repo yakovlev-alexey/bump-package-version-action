@@ -14,7 +14,6 @@ import { makePush } from "./steps/make-push";
 import { makeTag } from "./steps/make-tag";
 
 export const bumpPackageVersion = async () => {
-    console.log(context);
     const commits = await getCommits();
 
     if (commits.length === 0) {

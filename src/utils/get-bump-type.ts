@@ -1,4 +1,9 @@
-import { MAJOR_WORDING, MINOR_WORDING, PATCH_WORDING } from "../constants";
+import {
+    MAJOR_WORDING,
+    MINOR_WORDING,
+    PATCH_WORDING,
+} from "../constants/input";
+
 import { extractMessages } from "./extract-messages";
 import { haveWords } from "./have-words";
 

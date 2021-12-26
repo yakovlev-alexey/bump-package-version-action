@@ -1,4 +1,4 @@
-import { COMMIT_MESSAGE } from "../constants";
+import { COMMIT_MESSAGE } from "../constants/input";
 import { exec } from "../utils/exec";
 
 const makeCommit = async (version: string) => {

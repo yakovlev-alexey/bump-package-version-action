@@ -1,7 +1,11 @@
 import { getOctokit } from "@actions/github";
 
-import { getPullRequestNumber } from "./get-pull-request-number";
-import { EVENT_PATH, IS_PULL_REQUEST, REPO } from "../constants";
+import {
+    EVENT_PATH,
+    IS_PULL_REQUEST,
+    PULL_REQUEST_NUMBER,
+    REPO,
+} from "../constants/github";
 
 import type { Commit } from "../types";
 
@@ -19,7 +23,7 @@ const getCommits = async (): Promise<Commit[]> => {
         owner: process.env.GITHUB_REPOSITORY_OWNER,
         // pretty sure it's a pull request
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        pull_number: getPullRequestNumber()!,
+        pull_number: PULL_REQUEST_NUMBER!,
     });
 
     return data.map(({ commit }) => commit);
