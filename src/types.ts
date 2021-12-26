@@ -4,8 +4,6 @@ type Package = {
 
 type Commit = {
     message: string;
-    body: string;
-    id: string;
 };
 
 type BumpType = "major" | "minor" | "patch";

@@ -1,3 +1,4 @@
+# GitHub doesn't install node_modules when running Actions so production dependencies are commited
 node_modules
 yarn-error.log
 .parcel-cache

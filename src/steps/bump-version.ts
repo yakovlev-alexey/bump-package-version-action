@@ -12,7 +12,7 @@ const bumpVersion = async (type: BumpType) => {
         return version;
     }
 
-    const rcVersion = getRcVersion(version);
+    const rcVersion = await getRcVersion(version);
 
     return await exec(`npm version --git-tag-version=false ${rcVersion}`);
 };

@@ -1,3 +1,5 @@
+var $7pP8V$actionscore = require("@actions/core");
+var $7pP8V$actionsgithub = require("@actions/github");
 var $7pP8V$fs = require("fs");
 var $7pP8V$path = require("path");
 var $7pP8V$child_process = require("child_process");
@@ -5,6 +7,8 @@ var $7pP8V$child_process = require("child_process");
 function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
 }
+
+
 const $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3 = (name, defaultValue)=>{
     return process.env[name] || defaultValue;
 };
@@ -13,7 +17,8 @@ const $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3 = (name, defaultValue)=>{
 const $e1181c88df78847e$export$db8bb791c0a06140 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_EVENT_PATH");
 const $e1181c88df78847e$export$da7dc787b5bb24a3 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_WORKSPACE");
 const $e1181c88df78847e$export$8237651927eeefcf = Boolean($58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_HEAD_REF"));
-const $e1181c88df78847e$export$b2c618602f6acb32 = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${process.env.GITHUB_REPOSITORY}.git`;
+const $e1181c88df78847e$export$419e033c3ff0b48f = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GITHUB_REPOSITORY");
+const $e1181c88df78847e$export$b2c618602f6acb32 = `https://${process.env.GITHUB_ACTOR}:${process.env.GITHUB_TOKEN}@github.com/${$e1181c88df78847e$export$419e033c3ff0b48f}.git`;
 const $e1181c88df78847e$export$ff09b90989b21a8 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GUTHUB_USER", "Automated Version Bump");
 const $e1181c88df78847e$export$61171c632678b12e = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("GUTHUB_EMAIL", "bump-package-version-action@users.noreply.github.com");
 const $e1181c88df78847e$export$a04746c34337686a = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_TAG-PREFIX", "");
@@ -76,8 +81,24 @@ const $0bd15d6309841405$export$d6875ac9e42c5d13 = (commits)=>{
 
 
 
+const $b01cbd0650ddec37$export$fadd4deb957aee8b = ()=>{
+    return Number(/refs\/pull\/(\d+)\/merge/.exec(process.env.GITHUB_REF || "")[1] || null);
+};
+
+
+
 const $614da927c656e026$export$c76cbc8af6040a47 = async ()=>{
-    return $e1181c88df78847e$export$db8bb791c0a06140 && (await require($e1181c88df78847e$export$db8bb791c0a06140)).commits || [];
+    const eventCommits = $e1181c88df78847e$export$db8bb791c0a06140 && (await require($e1181c88df78847e$export$db8bb791c0a06140)).commits;
+    if (!$e1181c88df78847e$export$8237651927eeefcf) return eventCommits || [];
+    const { data: data  } = await $7pP8V$actionsgithub.getOctokit(process.env.GITHUB_TOKEN).rest.pulls.listCommits({
+        repo: $e1181c88df78847e$export$419e033c3ff0b48f.split("/")[1],
+        owner: process.env.GITHUB_REPOSITORY_OWNER,
+        // pretty sure it's a pull request
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        pull_number: $b01cbd0650ddec37$export$fadd4deb957aee8b()
+    });
+    return data.map(({ commit: commit  })=>commit
+    );
 };
 
 
@@ -128,7 +149,7 @@ const $6cf48e5bb052e71e$export$675fe7fcc48d1ee8 = async (version)=>{
 const $f889754ddad8110b$export$52f84dc7de3cd4b8 = async (type)=>{
     const version = await $df40e2c226cd3ec7$export$78e3044358792147(`npm version --git-tag-version=false ${type}`);
     if (!$e1181c88df78847e$export$8237651927eeefcf) return version;
-    const rcVersion = $6cf48e5bb052e71e$export$675fe7fcc48d1ee8(version);
+    const rcVersion = await $6cf48e5bb052e71e$export$675fe7fcc48d1ee8(version);
     return await $df40e2c226cd3ec7$export$78e3044358792147(`npm version --git-tag-version=false ${rcVersion}`);
 };
 
@@ -155,10 +176,10 @@ const $3d4be95bac04087b$export$683f9f4843c07b19 = async (version)=>{
 };
 
 
-
 const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
+    console.log($7pP8V$actionsgithub.context);
     const commits = await $614da927c656e026$export$c76cbc8af6040a47();
-    if (!$e1181c88df78847e$export$8237651927eeefcf && commits.length === 0) {
+    if (commits.length === 0) {
         console.log("No commits found: aborting bump");
         return;
     }
@@ -180,6 +201,7 @@ const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
     await $3d4be95bac04087b$export$683f9f4843c07b19(version);
     await $4551542afe13c472$export$3ffcc9a890cc5e87();
     console.log(`Successfully bumped version from ${current} to ${version}`);
+    ($parcel$interopDefault($7pP8V$actionscore)).setOutput("version", version);
 };
 
 
