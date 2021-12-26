@@ -12,6 +12,14 @@ import { makeCommit } from "./steps/make-commit";
 import { makePush } from "./steps/make-push";
 import { makeTag } from "./steps/make-tag";
 
+import {
+    SKIP_COMMIT,
+    SKIP_FOR_CANARY,
+    SKIP_PUSH,
+    SKIP_TAG,
+} from "./constants/input";
+import { IS_PULL_REQUEST } from "./constants/github";
+
 export const bumpPackageVersion = async () => {
     const commits = await getCommits();
 
@@ -44,9 +52,11 @@ export const bumpPackageVersion = async () => {
 
     const version = await bumpVersion(bumpType);
 
-    await makeCommit(version);
-    await makeTag(version);
-    await makePush();
+    if (!IS_PULL_REQUEST || (IS_PULL_REQUEST && !SKIP_FOR_CANARY)) {
+        !SKIP_COMMIT && (await makeCommit(version));
+        !SKIP_TAG && (await makeTag(version));
+        !SKIP_PUSH && (await makePush());
+    }
 
     console.log(`Successfully bumped version from ${current} to ${version}`);
 

@@ -13,12 +13,22 @@ const $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3 = (name, defaultValue)=>{
 };
 
 
+const $9271d6a0769c8383$export$42405f212471e8a2 = (name, defaultValue = false)=>{
+    const env = process.env[name];
+    return env === "true" || env !== "false" && defaultValue;
+};
+
+
 const $4e883dec39b0a1c0$export$a04746c34337686a = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_TAG-PREFIX", "");
 const $4e883dec39b0a1c0$export$eceeda9df681e8de = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_COMMIT-MESSAGE", "ci: version bump to {{version}}");
 const $4e883dec39b0a1c0$export$4fa4a22200055c8a = new RegExp($4e883dec39b0a1c0$export$eceeda9df681e8de.replace(/{{version}}/g, `${$4e883dec39b0a1c0$export$a04746c34337686a}\\d+\\.\\d+\\.\\d+`), "ig");
 const $4e883dec39b0a1c0$export$9c22c0b0c1bcc7b5 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_MAJOR-WORDING", "BREAKING CHANGES").split(",");
 const $4e883dec39b0a1c0$export$945cdec32488ff3d = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_MINOR-WORDING", "feat").split(",");
 const $4e883dec39b0a1c0$export$7c6e2bf360dbbe96 = $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3("INPUT_PATCH-WORDING", "fix").split(",");
+const $4e883dec39b0a1c0$export$cdee35690a0285d2 = $9271d6a0769c8383$export$42405f212471e8a2("INPUT_SKIP-COMMIT");
+const $4e883dec39b0a1c0$export$d2d4258b08d61040 = $9271d6a0769c8383$export$42405f212471e8a2("INPUT_SKIP-TAG");
+const $4e883dec39b0a1c0$export$a876fbbd4947e142 = $9271d6a0769c8383$export$42405f212471e8a2("INPUT_SKIP-PUSH");
+const $4e883dec39b0a1c0$export$21e47e591597ba47 = $9271d6a0769c8383$export$42405f212471e8a2("INPUT_SKIP-FOR-CANARY");
 
 
 const $eeb57b34270821dd$export$7614f1c7608a9f16 = (commits)=>{
@@ -175,6 +185,8 @@ const $3d4be95bac04087b$export$683f9f4843c07b19 = async (version)=>{
 };
 
 
+
+
 const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
     const commits = await $614da927c656e026$export$c76cbc8af6040a47();
     if (commits.length === 0) {
@@ -198,9 +210,11 @@ const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
     const pkg = await $d00624c5e0395f8d$export$58452b1f896d18ce();
     const current = pkg.version.toString();
     const version = await $f889754ddad8110b$export$52f84dc7de3cd4b8(bumpType);
-    await $d688e08773f8faf9$export$3c0b7c85670b6d1a(version);
-    await $3d4be95bac04087b$export$683f9f4843c07b19(version);
-    await $4551542afe13c472$export$3ffcc9a890cc5e87();
+    if (!$25f6fd31a701b1af$export$8237651927eeefcf || $25f6fd31a701b1af$export$8237651927eeefcf && !$4e883dec39b0a1c0$export$21e47e591597ba47) {
+        !$4e883dec39b0a1c0$export$cdee35690a0285d2 && await $d688e08773f8faf9$export$3c0b7c85670b6d1a(version);
+        !$4e883dec39b0a1c0$export$d2d4258b08d61040 && await $3d4be95bac04087b$export$683f9f4843c07b19(version);
+        !$4e883dec39b0a1c0$export$a876fbbd4947e142 && await $4551542afe13c472$export$3ffcc9a890cc5e87();
+    }
     console.log(`Successfully bumped version from ${current} to ${version}`);
     $7pP8V$actionscore.setOutput("version", version);
 };

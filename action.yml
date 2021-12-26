@@ -19,3 +19,19 @@ inputs:
   commit-message:
     description: "Set a custom commit message for version bump commit"
     required: false
+  skip-push:
+    description: "Skip pushes"
+    required: false
+    default: false
+  skip-commit:
+    description: "Skip commits"
+    required: false
+    default: false
+  skip-tag:
+    description: "Skip tagging"
+    required: false
+    default: false
+  skip-for-canary:
+    description: "Skip commiting, tagging and pushing for canary versions (PRs)"
+    required: false
+    default: true
