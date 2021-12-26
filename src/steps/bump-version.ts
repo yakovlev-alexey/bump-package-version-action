@@ -1,7 +1,20 @@
+import { getRcVersion } from "../utils/get-rc-version";
 import { exec } from "../utils/exec";
 
-const bumpVersion = async (version: string) => {
-    return await exec(`npm version --git-tag-version=false ${version}`);
+import { IS_PULL_REQUEST } from "../constants";
+
+import type { BumpType } from "../types";
+
+const bumpVersion = async (type: BumpType) => {
+    const version = await exec(`npm version --git-tag-version=false ${type}`);
+
+    if (!IS_PULL_REQUEST) {
+        return version;
+    }
+
+    const rcVersion = getRcVersion(version);
+
+    return await exec(`npm version --git-tag-version=false ${rcVersion}`);
 };
 
 export { bumpVersion };

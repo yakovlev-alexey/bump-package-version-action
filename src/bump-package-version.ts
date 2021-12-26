@@ -1,15 +1,16 @@
 import { haveVersionBump } from "./utils/have-version-bump";
 import { getPackageJson } from "./utils/get-package-json";
+import { getBumpType } from "./utils/get-bump-type";
 import { getCommits } from "./utils/get-commits";
 
-import { calculateVersion } from "./steps/calculate-version";
 import { prepareGitActor } from "./steps/prepare-git-actor";
+import { makeCheckout } from "./steps/make-checkout";
 import { bumpVersion } from "./steps/bump-version";
 import { makeCommit } from "./steps/make-commit";
 import { makePush } from "./steps/make-push";
 import { makeTag } from "./steps/make-tag";
+
 import { IS_PULL_REQUEST } from "./constants";
-import { makeCheckout } from "./steps/make-checkout";
 
 export const bumpPackageVersion = async () => {
     const commits = await getCommits();
@@ -26,20 +27,19 @@ export const bumpPackageVersion = async () => {
 
     await prepareGitActor();
 
-    const pkg = await getPackageJson();
+    const bumpType = getBumpType(commits);
 
-    const current = pkg.version.toString();
-
-    const calculatedVersion = await calculateVersion(current, commits);
-
-    if (calculatedVersion === null) {
+    if (bumpType === null) {
         console.log("No wording matched: aborting bump");
         return;
     }
 
     await makeCheckout();
 
-    const version = await bumpVersion(calculatedVersion);
+    const pkg = await getPackageJson();
+    const current = pkg.version.toString();
+
+    const version = await bumpVersion(bumpType);
 
     await makeCommit(version);
     await makeTag(version);

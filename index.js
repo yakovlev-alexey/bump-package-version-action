@@ -52,32 +52,6 @@ const $d00624c5e0395f8d$export$58452b1f896d18ce = async ()=>{
 
 
 
-const $614da927c656e026$export$c76cbc8af6040a47 = async ()=>{
-    return $e1181c88df78847e$export$db8bb791c0a06140 && (await require($e1181c88df78847e$export$db8bb791c0a06140)).commits || [];
-};
-
-
-
-
-const $df40e2c226cd3ec7$export$78e3044358792147 = (command)=>{
-    return new Promise((resolve, reject)=>{
-        $7pP8V$child_process.exec(command, {
-            cwd: $e1181c88df78847e$export$da7dc787b5bb24a3
-        }, (err, stdout, stderr)=>{
-            if (!err) resolve(stdout);
-            reject(`${stderr}\n${command} exited with error ${err}`);
-        });
-    });
-};
-
-
-const $6cf48e5bb052e71e$export$675fe7fcc48d1ee8 = async (version)=>{
-    const latestHash = await $df40e2c226cd3ec7$export$78e3044358792147("git rev-parse --short HEAD");
-    return version.replace(/-rc-.*/, "") + `-rc-${latestHash}`;
-};
-
-
-
 
 const $d56d63f6fcd207e2$export$9a4ff46b96c101f8 = (messages, words)=>{
     return messages.some((message)=>words.some((word)=>message.startsWith(word)
@@ -102,12 +76,24 @@ const $0bd15d6309841405$export$d6875ac9e42c5d13 = (commits)=>{
 
 
 
-const $3e99bd3b79202329$export$c64ae365b10b6f6a = async (current, commits)=>{
-    if ($e1181c88df78847e$export$8237651927eeefcf) return await $6cf48e5bb052e71e$export$675fe7fcc48d1ee8(current, commits);
-    else return $0bd15d6309841405$export$d6875ac9e42c5d13(commits);
+const $614da927c656e026$export$c76cbc8af6040a47 = async ()=>{
+    return $e1181c88df78847e$export$db8bb791c0a06140 && (await require($e1181c88df78847e$export$db8bb791c0a06140)).commits || [];
 };
 
 
+
+
+
+const $df40e2c226cd3ec7$export$78e3044358792147 = (command)=>{
+    return new Promise((resolve, reject)=>{
+        $7pP8V$child_process.exec(command, {
+            cwd: $e1181c88df78847e$export$da7dc787b5bb24a3
+        }, (err, stdout, stderr)=>{
+            if (!err) resolve(stdout);
+            reject(`${stderr}\n${command} exited with error ${err}`);
+        });
+    });
+};
 
 
 const $dd39407a6c55c725$export$f3912e27b190ed8d = async ()=>{
@@ -117,8 +103,33 @@ const $dd39407a6c55c725$export$f3912e27b190ed8d = async ()=>{
 
 
 
-const $f889754ddad8110b$export$52f84dc7de3cd4b8 = async (version)=>{
-    return await $df40e2c226cd3ec7$export$78e3044358792147(`npm version --git-tag-version=false ${version}`);
+const $51a6b55ebdaad9e7$export$66495e3f9280fd95 = ()=>{
+    if ($e1181c88df78847e$export$8237651927eeefcf) return process.env.GITHUB_HEAD_REF;
+    return /refs\/[a-zA-Z]+\/(.*)/.exec(process.env.GITHUB_REF)[1];
+};
+
+
+
+const $65ddd2448ff13334$export$ccc883122007ba34 = async ()=>{
+    const branch = $51a6b55ebdaad9e7$export$66495e3f9280fd95();
+    await $df40e2c226cd3ec7$export$78e3044358792147(`git checkout ${branch}`);
+};
+
+
+
+const $6cf48e5bb052e71e$export$675fe7fcc48d1ee8 = async (version)=>{
+    const latestHash = await $df40e2c226cd3ec7$export$78e3044358792147("git rev-parse --short HEAD");
+    return version.replace(/-rc-.*/, "") + `-rc-${latestHash}`;
+};
+
+
+
+
+const $f889754ddad8110b$export$52f84dc7de3cd4b8 = async (type)=>{
+    const version = await $df40e2c226cd3ec7$export$78e3044358792147(`npm version --git-tag-version=false ${type}`);
+    if (!$e1181c88df78847e$export$8237651927eeefcf) return version;
+    const rcVersion = $6cf48e5bb052e71e$export$675fe7fcc48d1ee8(version);
+    return await $df40e2c226cd3ec7$export$78e3044358792147(`npm version --git-tag-version=false ${rcVersion}`);
 };
 
 
@@ -145,20 +156,6 @@ const $3d4be95bac04087b$export$683f9f4843c07b19 = async (version)=>{
 
 
 
-
-const $51a6b55ebdaad9e7$export$66495e3f9280fd95 = ()=>{
-    if ($e1181c88df78847e$export$8237651927eeefcf) return process.env.GITHUB_HEAD_REF;
-    return /refs\/[a-zA-Z]+\/(.*)/.exec(process.env.GITHUB_REF)[1];
-};
-
-
-
-const $65ddd2448ff13334$export$ccc883122007ba34 = async ()=>{
-    const branch = $51a6b55ebdaad9e7$export$66495e3f9280fd95();
-    await $df40e2c226cd3ec7$export$78e3044358792147(`git checkout ${branch}`);
-};
-
-
 const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
     const commits = await $614da927c656e026$export$c76cbc8af6040a47();
     if (!$e1181c88df78847e$export$8237651927eeefcf && commits.length === 0) {
@@ -170,15 +167,15 @@ const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
         return;
     }
     await $dd39407a6c55c725$export$f3912e27b190ed8d();
-    const pkg = await $d00624c5e0395f8d$export$58452b1f896d18ce();
-    const current = pkg.version.toString();
-    const calculatedVersion = await $3e99bd3b79202329$export$c64ae365b10b6f6a(current, commits);
-    if (calculatedVersion === null) {
+    const bumpType = $0bd15d6309841405$export$d6875ac9e42c5d13(commits);
+    if (bumpType === null) {
         console.log("No wording matched: aborting bump");
         return;
     }
     await $65ddd2448ff13334$export$ccc883122007ba34();
-    const version = await $f889754ddad8110b$export$52f84dc7de3cd4b8(calculatedVersion);
+    const pkg = await $d00624c5e0395f8d$export$58452b1f896d18ce();
+    const current = pkg.version.toString();
+    const version = await $f889754ddad8110b$export$52f84dc7de3cd4b8(bumpType);
     await $d688e08773f8faf9$export$3c0b7c85670b6d1a(version);
     await $3d4be95bac04087b$export$683f9f4843c07b19(version);
     await $4551542afe13c472$export$3ffcc9a890cc5e87();

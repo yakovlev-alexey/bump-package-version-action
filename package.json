@@ -13,7 +13,9 @@
         "lint": "npm-run-all lint:*",
         "lint:scripts": "eslint './**/*.{js,ts}'",
         "format": "prettier --write './**/*.{js,ts}'",
-        "lint:types": "tsc --noEmit"
+        "lint:types": "tsc --noEmit",
+        "prepublish": "yarn build",
+        "prepare": "husky install"
     },
     "dependencies": {
         "@actions/core": "^1.6.0",
