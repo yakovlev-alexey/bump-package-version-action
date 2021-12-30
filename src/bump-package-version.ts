@@ -1,5 +1,6 @@
 import { setOutput } from "@actions/core";
 
+import { isForkPullRequest } from "./utils/is-fork-pull-request";
 import { haveVersionBump } from "./utils/have-version-bump";
 import { getPackageJson } from "./utils/get-package-json";
 import { getBumpType } from "./utils/get-bump-type";
@@ -13,6 +14,7 @@ import { makePush } from "./steps/make-push";
 import { makeTag } from "./steps/make-tag";
 
 import {
+    ABORT_FOR_FORKS,
     SKIP_COMMIT,
     SKIP_FOR_CANARY,
     SKIP_PUSH,
@@ -21,6 +23,12 @@ import {
 import { IS_PULL_REQUEST } from "./constants/github";
 
 export const bumpPackageVersion = async () => {
+    if (ABORT_FOR_FORKS && isForkPullRequest()) {
+        console.log("Running in a PR from a fork: aborting bump");
+        setOutput("version", null);
+        return;
+    }
+
     const commits = await getCommits();
 
     if (commits.length === 0) {
