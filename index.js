@@ -1,12 +1,20 @@
 var $7pP8V$actionscore = require("@actions/core");
+var $7pP8V$actionsgithub = require("@actions/github");
 var $7pP8V$fs = require("fs");
 var $7pP8V$path = require("path");
-var $7pP8V$actionsgithub = require("@actions/github");
 var $7pP8V$child_process = require("child_process");
 
 function $parcel$interopDefault(a) {
   return a && a.__esModule ? a.default : a;
 }
+
+
+const $2555de85c75805d7$export$d239e0366fca934e = ()=>{
+    const pr = $7pP8V$actionsgithub.context.payload.pull_request;
+    if (!pr) return false;
+    return pr.head.repo.full_name !== pr.base.repo.full_name;
+};
+
 
 const $58f2a8ee7a8e01f9$export$a7b6bc01c63cdfc3 = (name, defaultValue)=>{
     return process.env[name] || defaultValue;
@@ -29,6 +37,7 @@ const $4e883dec39b0a1c0$export$cdee35690a0285d2 = $9271d6a0769c8383$export$42405
 const $4e883dec39b0a1c0$export$d2d4258b08d61040 = $9271d6a0769c8383$export$42405f212471e8a2("INPUT_SKIP-TAG");
 const $4e883dec39b0a1c0$export$a876fbbd4947e142 = $9271d6a0769c8383$export$42405f212471e8a2("INPUT_SKIP-PUSH");
 const $4e883dec39b0a1c0$export$21e47e591597ba47 = $9271d6a0769c8383$export$42405f212471e8a2("INPUT_SKIP-FOR-CANARY");
+const $4e883dec39b0a1c0$export$3afee1e46ea25b40 = $9271d6a0769c8383$export$42405f212471e8a2("INPUT_ABORT-FOR-FORKS");
 
 
 const $eeb57b34270821dd$export$7614f1c7608a9f16 = (commits)=>{
@@ -188,6 +197,11 @@ const $3d4be95bac04087b$export$683f9f4843c07b19 = async (version)=>{
 
 
 const $51bb0293d98c833a$export$35ff605ec30dcd48 = async ()=>{
+    if ($4e883dec39b0a1c0$export$3afee1e46ea25b40 && $2555de85c75805d7$export$d239e0366fca934e()) {
+        console.log("Running in a PR from a fork: aborting bump");
+        $7pP8V$actionscore.setOutput("version", null);
+        return;
+    }
     const commits = await $614da927c656e026$export$c76cbc8af6040a47();
     if (commits.length === 0) {
         console.log("No commits found: aborting bump");
