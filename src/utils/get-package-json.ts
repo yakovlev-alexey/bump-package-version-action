@@ -1,7 +1,7 @@
 import { promises as fs, constants } from "fs";
 import path from "path";
 
-import { WORKSPACE } from "../constants/github";
+import { WORKSPACE } from "constants/github";
 
 import type { Package } from "../types";
 

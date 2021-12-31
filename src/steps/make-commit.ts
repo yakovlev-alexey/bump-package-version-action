@@ -1,5 +1,5 @@
-import { COMMIT_MESSAGE } from "../constants/input";
-import { exec } from "../utils/exec";
+import { COMMIT_MESSAGE } from "constants/input";
+import { exec } from "utils/exec";
 
 const makeCommit = async (version: string) => {
     const commitMessage = COMMIT_MESSAGE.replace(/{{version}}/g, version);

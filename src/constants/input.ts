@@ -1,5 +1,5 @@
-import { env } from "../utils/env";
-import { flag } from "../utils/flag";
+import { env } from "utils/env";
+import { flag } from "utils/flag";
 
 const TAG_PREFIX = env("INPUT_TAG-PREFIX", "");
 const COMMIT_MESSAGE = env(

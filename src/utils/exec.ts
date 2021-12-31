@@ -1,6 +1,6 @@
 import { exec as nodeExec } from "child_process";
 
-import { WORKSPACE } from "../constants/github";
+import { WORKSPACE } from "constants/github";
 
 const exec = (command: string) => {
     return new Promise<string>((resolve, reject) => {
