@@ -5,7 +5,7 @@ import {
     IS_PULL_REQUEST,
     PULL_REQUEST_NUMBER,
     REPO,
-} from "../constants/github";
+} from "constants/github";
 
 import type { Commit } from "../types";
 

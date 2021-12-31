@@ -1,6 +1,6 @@
 import { context } from "@actions/github";
 
-import { env } from "../utils/env";
+import { env } from "utils/env";
 
 const EVENT_PATH = env("GITHUB_EVENT_PATH");
 const WORKSPACE = env("GITHUB_WORKSPACE");

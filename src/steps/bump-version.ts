@@ -1,7 +1,7 @@
-import { getCanaryVersion } from "../utils/get-canary-version";
-import { exec } from "../utils/exec";
+import { getCanaryVersion } from "utils/get-canary-version";
+import { exec } from "utils/exec";
 
-import { IS_PULL_REQUEST } from "../constants/github";
+import { IS_PULL_REQUEST } from "constants/github";
 
 import type { BumpType } from "../types";
 

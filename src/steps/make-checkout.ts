@@ -1,5 +1,5 @@
-import { getCurrentBranch } from "../utils/get-current-branch";
-import { exec } from "../utils/exec";
+import { getCurrentBranch } from "utils/get-current-branch";
+import { exec } from "utils/exec";
 
 const makeCheckout = async () => {
     const branch = getCurrentBranch();
